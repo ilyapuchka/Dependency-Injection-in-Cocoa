@@ -1,0 +1,15 @@
+PODS:
+  - Dip (4.2.0)
+  - Typhoon (3.4.5):
+    - Typhoon/no-arc (= 3.4.5)
+  - Typhoon/no-arc (3.4.5)
+
+DEPENDENCIES:
+  - Dip
+  - Typhoon
+
+SPEC CHECKSUMS:
+  Dip: 9e8e469fc3a1ca82a7518968eab1257920320172
+  Typhoon: 200100687af3233ec5ed019064df3c9ffe350475
+
+COCOAPODS: 0.39.0
