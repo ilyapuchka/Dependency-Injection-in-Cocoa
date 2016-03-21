@@ -11,11 +11,11 @@ import Dip
 func configureContainer() -> DependencyContainer {
     let container = DependencyContainer { container in
         
-        container.register {
-            try APIClientImp(
-                baseURL: container.resolve(tag: "baseUrl"),
-                session: container.resolve()
-                ) as APIClient }
+        let config = Config(fileName: "Configuration.plist")!
+        let baseURLString: String = config.valueForKey("baseUrl")!
+        let baseURL = NSURL(string: baseURLString)!
+        
+        container.register { APIClientImp(baseURL: baseURL, session: $0) as APIClient }
             .resolveDependencies { (container, var client) in
                 client.logger = try container.resolve() as Logger
         }
@@ -23,12 +23,6 @@ func configureContainer() -> DependencyContainer {
         container.register { NSURLSession.sharedSession() as NetworkSession }
         
         container.register(.Singleton) { ConsoleLogger() as Logger }
-        
-        container.register(.Singleton) { Config(fileName: "Configuration.plist")! }
-        
-        container.register(tag: "baseUrl") {
-            try NSURL(string: (container.resolve() as Config).valueForKey("baseUrl")!)!
-        }
     }
     return container
 }

@@ -24,3 +24,15 @@
 }
 
 @end
+
+@interface ViewController : UIViewController
+
+@property (nonatomic) IBOutlet id<APIClient> apiClient;
+
+@end
+
+@implementation ViewController
+
+
+
+@end

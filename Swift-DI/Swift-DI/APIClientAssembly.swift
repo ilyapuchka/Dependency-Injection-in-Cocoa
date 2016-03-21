@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ilay Puchka. All rights reserved.
 //
 
-import UIKit
+import Typhoon
 
 public class APIClientAssembly: TyphoonAssembly {
     

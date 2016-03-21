@@ -20,6 +20,7 @@ It's aimed to be as simple as possible yet provide rich functionality usual for 
 
 This allows you to define the real, concrete types only in one place ([e.g. like this in your app](SampleApp/DipSampleApp/DependencyContainers.swift#L22-L27), and [resetting it in your `setUp` for each Unit Tests](SampleApp/Tests/SWAPIPersonProviderTests.swift#L17-L21)) and then [only work with `protocols` in your code](SampleApp/DipSampleApp/Providers/SWAPIStarshipProvider.swift#L12) (which only define an API contract), without worrying about the real implementation.
 
+> You can easily use Dip along with Storyboards and Nibs - checkout [Dip-UI](https://github.com/AliSoftware/Dip-UI) extensions. 
 
 ## Advantages of DI and loose coupling
 
@@ -47,13 +48,13 @@ If you use _Carthage_ add this line to your Cartfile:
 github "AliSoftware/Dip"
 ```
 
-If you use _Swift Package Manager_ add Dip as dependency to you `Package.swift`:
+If you use [_Swift Package Manager_](https://swift.org/package-manager/) add Dip as dependency to you `Package.swift`:
 
 ```
 let package = Package(
   name: "MyPackage",
   dependencies: [
-    .Package(url: "https://github.com/AliSoftware/Dip.git", "4.2.0")
+    .Package(url: "https://github.com/AliSoftware/Dip.git", "4.3.0")
   ]
 )
 ```
@@ -163,7 +164,7 @@ enum WebService: String {
     case Production
     case Development
     
-    var tag: Tag { return Tag.String(self.rawValue) }
+    var tag: DependencyContainer.Tag { return DependencyContainer.Tag.String(self.rawValue) }
 }
 
 let wsDependencies = DependencyContainer() { dip in
@@ -204,9 +205,27 @@ container.register(.ObjectGraph) { ServerImp() as Server }
 ```
 More information about circular dependencies you can find in the Playground.
 
-### Auto-Injection
+### Auto-wiring
 
-Auto-injection lets your resolve all the dependencies of the instance (created manually or resolved by container) with just one call, also allowing a simpler syntax to register circular dependencies.
+When you use constructor injection to inject dependencies in your component auto-wiring enables you to resolve it just with one call to `resolve` method without carying about how to resolve all constructor arguments - container will resolve them for you.
+
+```swift
+class PresenterImp: Presenter {
+    init(view: ViewOutput, interactor: Interactor, router: Router) { ... }
+    ...
+}
+
+container.register { RouterImp() as Router }
+container.register { View() as ViewOutput }
+container.register { InteractorImp() as Interactor }
+container.register { PresenterImp(view: $0, interactor: $1, router: $2) as Presenter }
+
+let presenter = try! container.resolve() as Presenter
+```
+
+### Auto-injection
+
+Auto-injection lets your resolve all property dependencies of the instance resolved by container with just one call, also allowing a simpler syntax to register circular dependencies.
 
 ```swift
 protocol Server {
@@ -235,6 +254,8 @@ let client = try! container.resolve() as Client
 ```
 You can find more use cases for auto-injection in the Playground available in this repository.
 
+> Tip: You can use either `Injected<T>` and `InjectedWeak<T>` wrappers provided by Dip, or your own wrappers (even plain `Box<T>`) that conform to `AutoInjectedPropertyBox` protocol.
+
 ### Thread safety
 
 `DependencyContainer` is thread safe, you can register and resolve components from different threads. 
@@ -243,12 +264,9 @@ when you try to resolve component from one thread while it was not yet registere
 
 ### Errors
 
-The resolve operation has a potential to fail because you can use the wrong type, factory or a wrong tag. For that reason Dip throws an error
- `DefinitionNotFound(DefinitionKey)` if it failed to resolve a type. Thus when calling `resolve` you need to use a `try` operator. 
- There are very rare use cases when your application can recover from this kind of error. In most of the cases you can use `try!` 
- to cause an exception at runtime if error was thrown or `try?` if a dependency is optional. 
- This way `try!` serves as an additional mark for developers that resolution can fail.
- Dip also provides helpful descriptions for errors that can occur when you call `resolve`. See the source code documentation to know more about that.
+The resolve operation has a potential to fail because you can use the wrong type, factory or a wrong tag. For that reason Dip throws a `DipError` if it fails to resolve a type. Thus when calling `resolve` you need to use a `try` operator. 
+There are very rare use cases when your application can recover from this kind of error. In most of the cases you can use `try!` to cause an exception at runtime if error was thrown or `try?` if a dependency is optional. This way `try!` serves as an additional mark for developers that resolution can fail. 
+Dip also provides helpful descriptions for errors that can occur when you call `resolve`. See the source code documentation to know more about that.
 
 ### Concrete Example
 

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0921240E1C942842006BA8DC /* NSURLSession+NetworkSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 0921240D1C942842006BA8DC /* NSURLSession+NetworkSession.m */; };
+		09ED803F1C9EDBEB00E8B4AA /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09ED803E1C9EDBEB00E8B4AA /* Storyboard.storyboard */; };
 		09F58F611C8268C000328BC7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 09F58F601C8268C000328BC7 /* main.m */; };
 		09F58F641C8268C000328BC7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 09F58F631C8268C000328BC7 /* AppDelegate.m */; };
 		09F58F6C1C8268C000328BC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09F58F6B1C8268C000328BC7 /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 		0921240B1C94280B006BA8DC /* NetworkSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkSession.h; sourceTree = "<group>"; };
 		0921240C1C942842006BA8DC /* NSURLSession+NetworkSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSession+NetworkSession.h"; sourceTree = "<group>"; };
 		0921240D1C942842006BA8DC /* NSURLSession+NetworkSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSession+NetworkSession.m"; sourceTree = "<group>"; };
+		09ED803E1C9EDBEB00E8B4AA /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		09F58F5C1C8268C000328BC7 /* ObjectiveC-DI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ObjectiveC-DI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09F58F601C8268C000328BC7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		09F58F621C8268C000328BC7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -57,6 +59,7 @@
 		09F58F531C8268C000328BC7 = {
 			isa = PBXGroup;
 			children = (
+				09ED803E1C9EDBEB00E8B4AA /* Storyboard.storyboard */,
 				09F58F5E1C8268C000328BC7 /* ObjectiveC-DI */,
 				09F58F5D1C8268C000328BC7 /* Products */,
 				58AD9388ACA41C280872015C /* Pods */,
@@ -184,6 +187,7 @@
 			files = (
 				09F58F6C1C8268C000328BC7 /* Assets.xcassets in Resources */,
 				09F58F821C8268FC00328BC7 /* Configuration.plist in Resources */,
+				09ED803F1C9EDBEB00E8B4AA /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

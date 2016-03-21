@@ -17,4 +17,6 @@
 
 @property (nonatomic, strong) id<Logger> logger;
 
+- (IBAction)sendRequest;
+
 @end

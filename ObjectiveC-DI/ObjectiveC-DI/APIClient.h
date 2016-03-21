@@ -11,5 +11,6 @@
 @protocol APIClient <NSObject>
 
 - (void)get:(NSString *)path;
+- (void)sendRequest;
 
 @end
