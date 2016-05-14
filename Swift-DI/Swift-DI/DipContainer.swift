@@ -16,7 +16,8 @@ func configureContainer() -> DependencyContainer {
         let baseURL = NSURL(string: baseURLString)!
         
         container.register { APIClientImp(baseURL: baseURL, session: $0) as APIClient }
-            .resolveDependencies { (container, var client) in
+            .resolveDependencies { (container, client) in
+                var client = client
                 client.logger = try container.resolve() as Logger
         }
         
