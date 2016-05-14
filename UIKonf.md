@@ -305,30 +305,7 @@ public class NSURLCache : NSObject {
 ^ Creating dependencies and injecting them in constructors or properties should be done only in the Composition Root.
 
 ---
-
-```
-			^					+------------------+
-			|					| App Entry  Point |
-			|					|                  |
-			|					| Composition Root |
-			|					+------------------+
-  			|				   +--------------------+
-			|				   |                    |
-			L				   | Presentation Logic |
-			A				   |                    |
-			Y				   +--------------------+
-			E					  +--------------+
-			R					  |              |
-			S					  | Domain Model |
-			|					  |              |
-			|					  +--------------+
-			|					  +--------------+
-			|					  |              |
-			|					  | Data  Access |
-			|					  |              |
-			v					  +--------------+
-
-```
+![inline](Assets/export-1.png)
 
 ^ Ideally there should be one Composition Root in the application and it should be close to application entry point. Like on this diagram.
 
@@ -598,40 +575,13 @@ Cons:
 
 ^ For example we should not depend on API repository implemented with Alamofire or data base repository implemented with CoreData or Realm.
 
-```
-						|	
-		 High level		|			 Low level
-						|
-		+---------+ 	|     +---------------------+ 
-		|         | 	|     |                     | 
-		| Service |  ------>  | Concrete Repository |
-		|         | 	|     |                     |  
-		+---------+ 	|     +---------------------+
-						|
-						|
-						|
-
-```
+![inline 100%](Assets/export-5.png)
 
 ---
 
 ^ Instead we should depend on a higher level abstraction. Both service and repository should depend on that abstraction. So the direction of dependency between higher and lower levels is inverted.
 
-```
-											|
-				High level					|		   Low level
-											|
-											|
-+---------+      +---------------------+    |    +---------------------+ 
-|         |      |                     |    |    |                     |
-| Service | ---> | Abstract Repository | <-----  | Concrete Repository |
-|         |      |                     |    |    |                     |
-+---------+      +---------------------+    |    +---------------------+ 
-										   	|
-										   	|
-										 	|
-
-```
+![inline 100%](Assets/export-6.png)
 
 ---
 
