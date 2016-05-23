@@ -1,13 +1,15 @@
 
-![left 60%](Assets/me.jpg)
+<!--![left 60%](Assets/me.jpg)-->
 
-# Ilya Puchka
-## iOS developer @HelloFresh
-### @ilyapuchka
-## Dependency Injection (DI) in Swift
+## Dependency Injection (DI) in Swift<br><br>
+### Ilya Puchka (@ilyapuchka)
+## [fit] iOS developer @HelloFresh
 
-^ Hi everyone. My name is Ilya. I'm working as iOS developer here in Berlin at company called HelloFresh.
-And, of course, we have an iOS app. Since day one it was a pure Swift app.
+^ Hi everyone. My name is Ilya. I'm working as iOS developer here in Berlin at company called HelloFresh. 
+
+^We are a food industry company but as any modern company it is backed by technology.
+
+^And, of course, we have an iOS app. Since day one it was a pure Swift app.
 
 ---
 
@@ -15,7 +17,7 @@ And, of course, we have an iOS app. Since day one it was a pure Swift app.
 
 ^ For many of us Swift opened up a world of functional programming. But it is still much more object oriented language than functional. 
 
-^ And our main tools - Cocoa frameworks are object oriented. So probably we will still keep writing object oriented code. 
+^ And our main tools - Cocoa frameworks are object oriented. So probably we ourselves will still keep writing object oriented code. 
 
 ^ The problem with that is that it is actually hard to write well designed object oriented code.
 
@@ -29,7 +31,7 @@ And, of course, we have an iOS app. Since day one it was a pure Swift app.
 
 # DI ![](Assets/8acc5e3fdaef21a70f196eb15f237d1f.png) SOLID
 
-^ Dependency Injection which I'm going to talk about today is itself not a part of SOLID principles that I have just mentioned. But it strongly relates to all of them. 
+^ Dependency Injection which I'm going to talk about today is itself not a part of SOLID principles that I have just mentioned. But it strongly relates to all of them.
 
 ---
 
@@ -41,7 +43,7 @@ And, of course, we have an iOS app. Since day one it was a pure Swift app.
 
 ^ Wikipedia gives us very complex definition.
 
-^ In software engineering, dependency injection is a software design pattern that implements inversion of control for resolving dependencies.
+^ In software engineering, dependency injection is a software design pattern that implements inversion of control for resolving dependencies. And few more sentences.
 
 > In software engineering, dependency injection is a software design pattern that implements inversion of control for resolving dependencies.
 -- Wikipedia
@@ -74,7 +76,7 @@ And, of course, we have an iOS app. Since day one it was a pure Swift app.
 
 ---
 
-# Why Dependency Injection?
+## Why Dependency Injection?
 
 ^ To start let's see what problems Dependency Injection tries to solve in the first place.
 
@@ -204,9 +206,9 @@ extension UIViewController {
 ## Local default
 ## Foreign default
 
-^ Property injection should be used when there is a good local default for dependency. "Local" means that it is defined in the same framework or library. `nil` is also a perfect local default, it just makes dependency optional. 
+^ Property injection should be used when there is a good local default for dependency. "Local" means that it is defined in the same module. `nil` is also a perfect local default, it just makes dependency optional. 
 
-^ When implementation comes from a separate framework it is foreign. Then we should not use it as a default value. And we should not use property injection for such dependency. Instead we should use constructor injection.
+^ When implementation comes from a separate module it is foreign. Then we should not use it as a default value. And we should not use property injection for such dependency. Instead we should use constructor injection.
 
 ^ Imagine that default implementation of transitioning delegate is defined not in UIKit, but in some other framework. Then we will always need to link to this framework even if we never use this API. UIKit becomes tightly coupled with that framework. And it drags along this unneded dependency. The same can happen with our own code and that will make it harder to reuse.
 
@@ -224,7 +226,7 @@ extension UIViewController {
 
 ^ Also we may need to synchronise access to it to prevent threading issues.
 
-^ For these reasons if we can use constructor injection we should prefer it over property injection. 
+^ For these reasons if we can use constructor injection we should prefer it to property injection. 
 
 ---
 
@@ -264,18 +266,22 @@ public class NSURLCache : NSObject {
 
 ---
 
-^ This pattern may be used only for truly universal dependencies that represent some cross-cutting concerns such as logging, analytics, accessing time and dates.
+^ This pattern may be used only for truly universal dependencies that represent some cross-cutting concerns such as logging, analitycs, accessing time and dates.
 
 # Cross-cutting concerns
 
 - logging
-- analytics
+- analitycs
 - time/date
 - etc.
 
 ---
 
-^ Ambient context has its own advantages. It makes dependency always accessible and does not pollute API. But most of the time it does not justify its disadvantages. It makes dependency implicit and it represents a global mutable state which is maybe not what you want. So first we should consider using other DI patterns and use ambient context as a last resort.
+^ Ambient context has its own advantages. It makes dependency always accessible and does not pollute API. It fits well in case of cross-cutting concerns. But in other case it does not justify its disadvantages. 
+
+^ It makes dependency implicit and it represents a global mutable state which is maybe not what you want. 
+
+^ So if the dependency is not truly universal first we should consider using other DI patterns.
 
 ### Pros:
 
@@ -301,23 +307,23 @@ public class NSURLCache : NSObject {
 
 ^ This lets us easily substitute dependency in different context or in tests, change its lifetime strategy, for instance use shared or separate instances, or to change the way how the dependency is constructed. All without changing its consumers. 
 
-^ That makes consumers decoupled with their dependencies, making them easier to reuse, extend, develop and test.
+^ That makes concumers decoupled with their dependencies, making them easier to reuse, extend, develop and test.
 
 ---
 
 ## Where dependencies are created?
 
-^ The obvious side effect of these patterns is that now every user of our code needs to provide its dependecies. But how do they get them? 
+^ The obvious side effect of these patterns is that now every user of our code needs to provide its depnendecies. But how do they get them? 
 
-^ If they create them directly then they become tightly coupled with those dependencies. So we just move the problem to another place.
+^ If they create them directly then they become tigthly coupled with those dependencies. So we just move the problem to another place.
 
 ---
 
 ## Composition root
 
-^ That problem brings us to much less discussed DI pattern called Composition Root. 
+^ That problem brings us to much less dicussed DI pattern called Composition Root. 
 
-^ Composition Root is a place where components from different layers of the application are wired together. The main point of having composition root is to separate configuration logic from the rest of our code, do it in a well defined place in a common manner. Having a piece of code which single responsibility is to configure other components. 
+^ Composition Root is a place where components from different layers of the application are wired together. The main point of having composition root is to separate configuration logic from the rest of our code, do it in a well defined place in a common manner. Having a piece of code which single responsobility is to configure other components. 
 
 ^ Creating dependencies and injecting them in constructors or properties should be done only in the Composition Root.
 
@@ -392,11 +398,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 ---
 
-^ Unfortunately Composition Root is usually not discussed in articles or talks about DI. But it is probably one of the most important parts of Dependency Injection. 
+^ Unfortunatelly Composition Root is usually not discussed in articles or talks about DI. But it is probably one of the most important parts of Dependency Injection. 
 
 ^ Getting all classes with dependencies moved to Composition Root is the biggest challenge of properly implementing DI. Especially in a large code base.
 
-> The biggest challenge of properly implementing DI is getting all classes with dependencies moved to Composition Root
+> The biggest challange of properly implementing DI is getting all classes with dependencies moved to Composition Root
 > -- Mark Seeman
 
 ^ If we manage to do that we have already come a long way.
@@ -444,10 +450,10 @@ class RecipesService {
 
 ## Volatile dependencies
 
-^ What is a volatile dependency? Any dependency that requires some specific environment setup, like database or network access. Dependencies that implement nondeterministic behavior are volatile, for example if they use random numbers, depend on time or implement cryptography. When we expect dependency to be replaced or it is simply not ready yet because it is developed in parallel - it is also volatile.
+^ What is a volatile dependency? Any dependency that requires some specific environment setup, like database or network access. Dependencies that implement nondetermenistic behaviour are volatile, for example if they use random numbers, depend on time or implement cryptography. When we expect dependency to be replaced or it is simply not ready yet because it is developed in parallel - it is also volatile.
 
 - dependency requires environment configuration (data base, networking, file system)
-- nondeterministic behavior (dates, cryptography)
+- nondetermenistic behavior (dates, cryptography)
 - expected to be replaced
 - dependency is still in development
 
@@ -496,7 +502,7 @@ class RecipesService {
 
 ^ Service Locator is a common name for some service that we can query for different objects that were previously registered in it. 
 
-^ It is the most tricky anti-pattern because it can make us feel that everything is absolutely fine. Many developers do not even consider it as an anti-pattern at all. But Service Locator is in fact opposite to Dependency injection.
+^ It is the most tricky anti-pattern because it can make us feel that everything is absolutely fine. Many developers do not even consider it as an anti-pattern at all. But Service Locator is in fact oposite to Dependency injection.
 
 ^ Let's look at an example:
 
@@ -563,7 +569,7 @@ Cons:
 
 ^ So lets sum up what we have discussed by that point. We discussed that Dependency Injection is used to enable loose coupling what makes our code easier to maintain. 
 
-^ We discussed different DI patterns among which constructor injection should be a preferred choice. 
+^ We discussed different DI patterns among which constructor injection should be a prefered choise. 
 
 ^ We discussed what are local and foreign dependencies and what are stable and volatile dependencies. 
 
@@ -580,7 +586,7 @@ Cons:
 
 ## Second step - abstractions
 
-^ But our code is not yet loosely coupled. The next big step for that is to model dependencies with abstractions. For that we will need to remember one of the SOLID principles.
+^ But our code is not yet lossely coupled. The next big step for that is to model dependencies with abstractions. Lets remember one of the SOLID principles.
 
 --- 
 
@@ -608,7 +614,7 @@ Cons:
 
 ---
 
-^ And we should follow this principle to have loosely coupled code. 
+^ And we should follow this principle to have loosly coupled code. 
 
 ^ Dependency Injection is not just patterns that we discussed before. It requires both patterns and Dependency Inversion Principle to be applied at the same time. 
 
@@ -618,7 +624,7 @@ Cons:
 
 ---
 
-^ It is commonly said that loose coupling is achieved by programming against interfaces and not to implementations.
+^ It is commonnly said that loose coupling is achieved by programming against interfaces and not to implementations.
 
 > Program to an interface, not an implementation
 > -- Design Patterns: Elements of Reusable Object-Oriented Software
@@ -633,11 +639,11 @@ Cons:
 
 ^ Interface (or a protocol) is just a language construct that we can use to model abstraction. It is a way how our code communicates with it. 
 
-^ But it does not make any guarantee for a good and reusable abstraction which is a key to loose coupling.
+^ But it does not make any guarnatee for a good and reusable abstraction which is a key to loose coupling.
 
-^ Base class can be sometimes as good abstractions as a protocol. But of course most of the time we probably will use protocols to model abstractions. 
+^ Base class can be sometimes as good abstraction as a protocol. But of course most of the time we probably will use protocols to model abstractions. 
 
-^ But be careful with introducing protocols everywhere. It can be unneeded level of indirection. And in Swift protocols might bite sometimes.
+^ But be careful with introducing protocols everywhere. It can be unneeded level of inderection. And in Swift protocols migth bite sometimes.
 
 ## Interfaces are not abstractions [^1]
 
@@ -648,6 +654,8 @@ Cons:
 ---
 
 ##[fit] DI = DI patterns + DIP
+
+^ When you pass dependency in constructor, or using property or method injection  - you should pass it as an abstraction (again, not nececerely using protocol). The same if you use ambinet context. It is not just some shared static instance - it should be an abstraction.
 
 ^ So Dependency Injection and Loose Coupling is achieved not just with Dependency Injection Patterns but also with Dependency Inversion Principle and modeling dependencies with abstractions. 
 
@@ -697,7 +705,7 @@ Cons:
 - well maintained
 - continuously improved
 
-^ It has relatively simple and well documented API with lots of powerful features. It is well maintained and supported and still continues to improve.
+^ It has relatively simple and well documented API with lots of powerfull features. It is well maintained and supported and still continues to improve.
 
 ---
 
@@ -723,7 +731,9 @@ public class APIClientAssembly: TyphoonAssembly {
 
 ---
 
-^ But in implementation instead of returning a concrete instance of some type like from factory method we return a `TyphoonDefinition` that describes how that instance should be created when it is requested. What initializer should be used and with what parameters, what properties should be injected. Here we define that `APIClient` will be created with `init(session:)` constructor and that it's session argument will be provided by the same assembly. Also we define that when  logger property will be injected with a logger instance also provided by the same assembly.
+^ But in implementation instead of returning a concrete instance of some type like from factory method we return a `TyphoonDefinition` that describes how that instance should be created when it is requested. What initialiser should be used and with what perameters, what properties should be injected. 
+
+^ Here we define that `APIClient` will be created with `init(session:)` constructor and that it's session argument will be provided by the same assembly. Also we define that logger property will be injected with a logger instance also provided by the same assembly.
 
 ```swift
 public dynamic func apiClient() -> AnyObject {
@@ -798,19 +808,21 @@ let apiClient = assembly.apiClient() as! APIClient
 - type-safe
 - small code base
 
-^ In terms of API it takes approach that is more traditional for DI containers on other platforms and follows "register-resolve" pattern.
-
 ---
 
 ## Register
 
-^ Here is the same example that we used for Typhoon. First we register `APIClientImp` as implementation of `APIClient` protocol. Container will also resolve contsructor argument and when instance is created will set its `logger` property which will be resolved as a singleton instance.
+^ In terms of API it takes approach that is more traditional for DI containers on other platforms and follows "register-resolve" pattern.
+
+^ Here is the same example that we used for Typhoon. First we register `APIClientImp` as implementation of `APIClient` protocol. Container will also resolve contructor argument and when instance is created will set `logger` property. For session parameter container will use shared url session and for logger it will create a singleton instance.
 
 ```swift
 let container = DependencyContainer()
 
 container.register { 
-	try APIClientImp(session: container.resolve()) as APIClient 
+	try APIClientImp(
+		session: container.resolve()
+	) as APIClient 
 }
 .resolveDependencies { container, client in
 	client.logger = try container.resolve()
@@ -830,7 +842,7 @@ container.register(.Singleton) { ConsoleLogger() as Logger }
 let apiClient = try! container.resolve() as APIClient
 ```
 
-^ You may notice that the API is almost the same as we saw in Service Locator. But it is not about API, it is about how we use it. If you don't want to use container as a Service Locator remember that you should call it only in the Composition Root.
+^ You may notice that the API is almost the same as we saw in Service Locator. But it is not about API or implementation, it is about how we use it. If you don't want to use container as a Service Locator remember that you should call it only in the Composition Root.
 
 ---
 
@@ -870,7 +882,7 @@ container.register {
 
 ---
 
-^ If we compare base features of Typhoon and Dip we will notice that they share most of them. It may seem surprising that almost the same features are possible in Swift even though it does not have powerful runtime features like in Objective-C. But generics and type inference are in fact enough for that.
+^ If we compare base features of Typhoon and Dip we will notice that they share most of them. It may seem surprising that almost the same features are possible in Swift even though it does not have powerfull runtime features like in Objective-C. But generics and type inference are in fact enougth for that.
 
 											Typhoon 	Dip 
 											
@@ -912,7 +924,13 @@ container.register {
 
 ---
 
-^ In the end I want to mention some useful resources where you can find more about DI and some related topics.
+## Dependency Injection is a means to an end
+
+^ The same is true for DI itself. Be rational about where to apply it and what parts of your system you need to decouple. Don't try to solve problems that you don't have yet. Maybe you will never have them or the way that you solved them now will not fit when you really face them. At the end DI is just a means to an end, like any other pattern or technology that we use. It is not a goal itself. 
+
+---
+
+^ In the end I want to mention some usefull resources where you can find more about DI and some related topics.
 
 # Links
 
@@ -924,5 +942,7 @@ container.register {
 
 ---
 
-# Thank you!
+# Thank you!<br><br>
+### @ilyapuchka
+### http://ilya.puchka.me
 
